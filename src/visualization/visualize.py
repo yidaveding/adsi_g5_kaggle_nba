@@ -1,9 +1,11 @@
 # plot roc curve based on prediction and actual label
+import pandas as pd
+import numpy as np
+from matplotlib import pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, precision_score, recall_score, balanced_accuracy_score
 
 def plot_roc_curve(pred, ydata):
-    from matplotlib import pyplot as plt
-    from sklearn.metrics import roc_curve, roc_auc_score
-
     ns_probs = [0 for _ in range(len(ydata))]
     lr_probs = pred
 
@@ -25,3 +27,17 @@ def plot_roc_curve(pred, ydata):
     plt.legend()
     # show the plot
     plt.show()
+    
+def eval_metrics(y_pred, y_test, praba_threshold=0.5):
+    predx = [x for x in y_pred > praba_threshold]
+    cm = confusion_matrix(y_test, predx).ravel()
+    print(f'ROC_AUC Score: {round(roc_auc_score(y_test, y_pred),3)}')
+    print(f'-----------\nConfusion Matrix with thresthold of {praba_threshold}:')
+    print(f'TN: {cm[0]}, FP: {cm[1]}\nFN: {cm[2]}, TP: {cm[3]}')
+    print(f'{np.sum(predx)} out of {len(predx)} or {int(round(np.sum(predx)/len(predx)*100,0))}% of players are predicted to be 5+ Yrs')
+    print(f'-----------\nRecall: {round(recall_score(y_test, predx), 4)}')
+    print(f'Accuracy: {round(accuracy_score(y_test, predx), 4)}')
+    print(f'Balanced Accuracy: {round(balanced_accuracy_score(y_test, predx), 4)}')
+    print(f'F1: {round(f1_score(y_test, predx), 4)}')
+    print(f'-----------')
+    plot_roc_curve(y_pred, y_test)
