@@ -6,6 +6,17 @@ from sklearn.metrics import roc_curve, roc_auc_score
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, precision_score, recall_score, balanced_accuracy_score
 
 def plot_roc_curve(pred, ydata):
+    
+    # plot the roc curve
+    #
+    # input:
+        # pred: prediction
+        # ydata: actual data
+    # output:
+        # plots the chart
+    # return:
+        # None
+    
     ns_probs = [0 for _ in range(len(ydata))]
     lr_probs = pred
 
