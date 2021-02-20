@@ -111,7 +111,7 @@ def load_split_store(filepath='data/', scaler=None, random_state=42, test_size=0
         data_scaled, test_scaled = data_mod, test_mod
     else:
         data_scaled = pd.DataFrame(scaler.fit_transform(data_mod), columns=data_mod.columns)
-        test_scaled = pd.DataFrame(scaler.fit_transform(test_mod), columns=test_mod.columns)
+        test_scaled = pd.DataFrame(scaler.transform(test_mod), columns=test_mod.columns)
     
     # check resample
     if resample == True:
